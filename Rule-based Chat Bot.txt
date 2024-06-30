@@ -1,0 +1,26 @@
+def chatbot():
+    print("Hello! I'm a simple chatbot. How can I assist you today?")
+    
+    while True:
+        user_input = input("You: ").lower()
+        
+        if "weather" in user_input:
+            print("Chatbot: The weather is sunny and warm today.")
+        elif "name" in user_input:
+            print("Chatbot: I'm called SimpleBot.")
+        elif "time" in user_input:
+            print("Chatbot: I don't have a watch, but it's always a good time to chat!")
+        elif "can i be your friend" in user_input or "can we be friends" in user_input:
+            print("Chatbot: Of course! I'm happy to be your friend.")
+        elif "day" in user_input:
+            print("Chatbot: Today is a great day!")
+        elif "favorite color" in user_input or "favourite colour" in user_input:
+            print("Chatbot: My favorite color is blue.")
+        elif "bye" in user_input or "exit" in user_input:
+            print("Chatbot: Goodbye! Have a great day!")
+            break
+        else:
+            print("Chatbot: I'm sorry, I don't understand that. Can you ask something else?")
+
+if __name__ == "__main__":
+    chatbot()
