@@ -1,0 +1,62 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+# Step 1: Load and Prepare Data
+def load_data(file_path):
+    try:
+        data = pd.read_csv(file_path)
+        data = data.drop_duplicates()
+        data = data.dropna()
+        return data
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
+        return None
+
+# Step 2: Load historical weather data
+weather_data = load_data('weather_data.csv')
+if weather_data is None:
+    raise SystemExit("Exiting due to missing weather data file.")
+
+# Step 3: Select features and target variable
+X = weather_data[['Rel Hum_%', 'Wind Speed_km/h']]  # Features
+y = weather_data['Temp_C']  # Target variable
+
+# Step 4: Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Step 5: Create a linear regression model
+model = LinearRegression()
+
+# Step 6: Train the model
+model.fit(X_train, y_train)
+
+# Step 7: Make predictions on the test set
+y_pred = model.predict(X_test)
+
+# Step 8: Evaluate the model
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print(f'Mean Squared Error: {mse}')
+print(f'R-squared: {r2}')
+
+# Step 9: Plot actual vs predicted temperatures
+plt.scatter(y_test, y_pred)
+plt.xlabel('Actual Temperatures')
+plt.ylabel('Predicted Temperatures')
+plt.title('Actual vs Predicted Temperatures')
+plt.show()
+
+# Step 10: Make predictions for new data (future weather conditions)
+# Assuming new_data.csv contains new weather data with 'humidity' and 'wind_speed'
+new_data = load_data('new_weather_data.csv')
+if new_data is not None:
+    X_new = new_data[['Rel Hum_%', 'Wind Speed_km/h']]
+    new_predictions = model.predict(X_new)
+    print("Predicted temperatures for new data:")
+    print(new_predictions)
+else:
+    print("New weather data file not found.")
